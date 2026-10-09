@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Roger Federer en chiffres — stats et quiz</title>
+    <meta
+      name="description"
+      content="Les statistiques de carrière de Roger Federer, sourcées ATP Tour et Roland-Garros, et un quiz de six questions."
+    />
+    <link rel="canonical" href="https://pierre900care.github.io/federer-stats/" />
+    <meta property="og:title" content="Roger Federer en chiffres" />
+    <meta
+      property="og:description"
+      content="20 Grands Chelems, 103 titres, 310 semaines n° 1. Consulte les stats, puis teste-toi."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://pierre900care.github.io/federer-stats/" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560;9..144,650&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+      rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560;9..144,650&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
+    <style>
+      :root {
+        --paper: #f4f0e6;
+        --ink: #1c1914;
+        --muted: #5e584e;
+        --line: #ddd4c4;
+        --card: #fffcf7;
+        --green: #14382f;
+        --green-2: #1f6b52;
+        --mint: #e5f2eb;
+        --gold: #7a5b24;
+        --bad: #8e2e2e;
+        --bad-bg: #f8e8e4;
+        --good-bg: #e5f3ea;
+        --shadow: 0 1px 0 rgba(28, 25, 20, 0.04);
+        --serif: "Fraunces", "Iowan Old Style", Palatino, Georgia, serif;
+        --sans: "Source Sans 3", "Segoe UI", sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        background:
+          radial-gradient(1200px 420px at 50% -80px, #efe6d2 0%, transparent 70%),
+          var(--paper);
+        color: var(--ink);
+        font-family: var(--sans);
+        font-size: 1.0625rem;
+        line-height: 1.55;
+      }
+
+      a {
+        color: var(--green-2);
+      }
+
+      .wrap {
+        width: min(920px, calc(100% - 2rem));
+        margin: 0 auto;
+      }
+
+      header {
+        padding: 2.5rem 0 1.25rem;
+      }
+
+      .eyebrow {
+        margin: 0 0 0.75rem;
+        color: var(--gold);
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        margin: 0;
+        font-family: var(--serif);
+        font-size: clamp(2.4rem, 7vw, 4.4rem);
+        font-weight: 560;
+        letter-spacing: -0.03em;
+        line-height: 0.95;
+      }
+
+      h1 span {
+        display: block;
+        font-weight: 650;
+        font-style: italic;
+      }
+
+      .lede {
+        max-width: 38rem;
+        margin: 1.1rem 0 0;
+        color: var(--muted);
+        font-size: 1.15rem;
+      }
+
+      .jump {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.6rem;
+        margin-top: 1.4rem;
+      }
+
+      .jump a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+        padding: 0.35rem 0.9rem;
+        border: 1px solid var(--green);
+        border-radius: 999px;
+        background: var(--green);
+        color: #f7f3ea;
+        font-weight: 700;
+        text-decoration: none;
+      }
+
+      .jump a.ghost {
+        background: transparent;
+        color: var(--green);
+      }
+
+      .filters {
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.45rem;
+        margin: 0.5rem 0 1rem;
+        padding: 0.75rem 0;
+        background: color-mix(in srgb, var(--paper) 92%, transparent);
+        backdrop-filter: blur(8px);
+      }
+
+      .filters button,
+      .choice,
+      .next,
+      .again,
+      .copy {
+        font: inherit;
+        cursor: pointer;
+      }
+
+      .filters button {
+        min-height: 44px;
+        padding: 0.35rem 0.85rem;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: var(--card);
+        color: var(--ink);
+      }
+
+      .filters button[aria-pressed="true"] {
+        border-color: var(--green);
+        background: var(--green);
+        color: #f7f3ea;
+      }
+
+      .filters button:focus-visible,
+      .choice:focus-visible,
+      .next:focus-visible,
+      .again:focus-visible,
+      .copy:focus-visible,
+      .jump a:focus-visible {
+        outline: 3px solid #d4a017;
+        outline-offset: 2px;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.8rem;
+      }
+
+      @media (min-width: 720px) {
+        .grid {
+          grid-template-columns: 1fr 1fr;
+        }
+
+        .card.wide {
+          grid-column: 1 / -1;
+        }
+      }
+
+      .card {
+        margin: 0;
+        padding: 1.1rem 1.15rem 1.15rem;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        background: var(--card);
+        box-shadow: var(--shadow);
+      }
+
+      .card[hidden] {
+        display: none;
+      }
+
+      .kicker {
+        margin: 0;
+        color: var(--gold);
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .figure {
+        margin: 0.2rem 0 0;
+        font-family: var(--serif);
+        font-size: clamp(2.2rem, 6vw, 3.1rem);
+        font-weight: 650;
+        letter-spacing: -0.03em;
+        line-height: 1;
+      }
+
+      .card h2 {
+        margin: 0.35rem 0 0.4rem;
+        font-family: var(--serif);
+        font-size: 1.25rem;
+        font-weight: 560;
+      }
+
+      .card p {
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .bars {
+        display: grid;
+        gap: 0.7rem;
+        margin-top: 0.9rem;
+      }
+
+      .bar-row {
+        display: grid;
+        grid-template-columns: 7.2rem 1fr auto;
+        gap: 0.55rem;
+        align-items: center;
+      }
+
+      .bar-row span {
+        color: var(--ink);
+        font-size: 0.95rem;
+      }
+
+      .track {
+        height: 10px;
+        overflow: hidden;
+        border-radius: 999px;
+        background: #efe8da;
+      }
+
+      .fill {
+        height: 100%;
+        border-radius: inherit;
+        background: var(--green);
+      }
+
+      .pct {
+        font-variant-numeric: tabular-nums;
+        font-weight: 700;
+      }
+
+      .quiz {
+        margin: 2.2rem 0 1rem;
+        padding: 1.2rem 1.15rem 1.25rem;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: var(--card);
+      }
+
+      .quiz h2 {
+        margin: 0.2rem 0 0.3rem;
+        font-family: var(--serif);
+        font-size: clamp(1.7rem, 4vw, 2.2rem);
+        font-weight: 560;
+      }
+
+      .progress {
+        margin: 0.8rem 0 0.35rem;
+        color: var(--muted);
+        font-size: 0.92rem;
+        font-weight: 700;
+      }
+
+      .meter {
+        height: 6px;
+        margin-bottom: 1rem;
+        overflow: hidden;
+        border-radius: 999px;
+        background: #efe8da;
+      }
+
+      .meter i {
+        display: block;
+        height: 100%;
+        width: 0;
+        background: var(--green-2);
+      }
+
+      #question {
+        margin: 0 0 0.9rem;
+        font-size: 1.25rem;
+        font-weight: 700;
+        line-height: 1.35;
+      }
+
+      .choices {
+        display: grid;
+        gap: 0.55rem;
+      }
+
+      .choice {
+        min-height: 48px;
+        padding: 0.7rem 0.9rem;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: #fff;
+        color: var(--ink);
+        text-align: left;
+      }
+
+      .choice:hover {
+        border-color: var(--green);
+      }
+
+      .choice[disabled] {
+        cursor: default;
+      }
+
+      .choice.good {
+        border-color: var(--green-2);
+        background: var(--good-bg);
+      }
+
+      .choice.bad {
+        border-color: var(--bad);
+        background: var(--bad-bg);
+      }
+
+      .feedback {
+        min-height: 1.4rem;
+        margin: 0.85rem 0 0;
+      }
+
+      .feedback.good {
+        color: var(--green-2);
+      }
+
+      .feedback.bad {
+        color: var(--bad);
+      }
+
+      .next,
+      .again,
+      .copy {
+        min-height: 48px;
+        margin-top: 0.8rem;
+        margin-right: 0.45rem;
+        padding: 0.4rem 1rem;
+        border: 1px solid var(--green);
+        border-radius: 999px;
+        background: var(--green);
+        color: #f7f3ea;
+        font-weight: 700;
+      }
+
+      .again,
+      .copy {
+        background: transparent;
+        color: var(--green);
+      }
+
+      .score-line {
+        margin: 0.4rem 0 0;
+        font-family: var(--serif);
+        font-size: clamp(2rem, 6vw, 3rem);
+        line-height: 1;
+      }
+
+      footer {
+        padding: 0.5rem 0 3rem;
+        color: var(--muted);
+        font-size: 0.92rem;
+      }
+
+      footer p {
+        margin: 0.35rem 0;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <p class="eyebrow">Carrière ATP · 1998 – 2022</p>
+        <h1>Roger Federer <span>en chiffres</span></h1>
+        <p class="lede">
+          Vingt titres du Grand Chelem, 103 tournois, 310 semaines au sommet.
+          Les chiffres ci-dessous viennent de l’ATP Tour et de Roland-Garros.
+          Filtre-les, puis réponds au quiz.
+        </p>
+        <div class="jump">
+          <a href="#stats">Voir les stats</a>
+          <a class="ghost" href="#quiz">Faire le quiz</a>
+        </div>
+      </header>
+
+      <div
+        id="stats"
+        class="filters"
+        role="group"
+        aria-label="Filtrer les statistiques"
+      >
+        <button type="button" data-filter="tous" aria-pressed="true">Tout</button>
+        <button type="button" data-filter="chelem">Grand Chelem</button>
+        <button type="button" data-filter="surfaces">Surfaces</button>
+        <button type="button" data-filter="classement">Classement</button>
+        <button type="button" data-filter="records">Records</button>
+      </div>
+
+      <section class="grid" aria-label="Statistiques de carrière">
+        <article class="card" data-cat="chelem">
+          <p class="kicker">Grand Chelem</p>
+          <p class="figure">20</p>
+          <h2>Titres majeurs</h2>
+          <p>8 à Wimbledon, 6 à l’Open d’Australie, 5 à l’US Open, 1 à Roland-Garros.</p>
+        </article>
+
+        <article class="card" data-cat="chelem">
+          <p class="kicker">Grand Chelem</p>
+          <p class="figure">369–60</p>
+          <h2>Bilan dans les Majeurs</h2>
+          <p>86,0&nbsp;% de victoires. 31 finales, dont 10 d’affilée entre 2005 et 2007.</p>
+        </article>
+
+        <article class="card" data-cat="records">
+          <p class="kicker">Palmarès</p>
+          <p class="figure">103</p>
+          <h2>Titres ATP en simple</h2>
+          <p>
+            Du premier à Milan en 2001 au dernier à Bâle en 2019. Jimmy Connors en compte 109.
+          </p>
+        </article>
+
+        <article class="card" data-cat="records">
+          <p class="kicker">Matchs</p>
+          <p class="figure">1&nbsp;251–275</p>
+          <h2>Bilan en carrière</h2>
+          <p>82,0&nbsp;% de victoires sur 1&nbsp;526 matchs. Il n’a jamais abandonné en cours de match.</p>
+        </article>
+
+        <article class="card wide" data-cat="surfaces">
+          <p class="kicker">Surfaces</p>
+          <h2>Pourcentage de victoires</h2>
+          <p>Le gazon reste sa surface la plus sûre. Les titres suivent la même hiérarchie.</p>
+          <div class="bars">
+            <div class="bar-row">
+              <span>Gazon</span>
+              <div class="track" role="img" aria-label="Gazon, 86,9 pour cent">
+                <div class="fill" style="width: 86.9%"></div>
+              </div>
+              <span class="pct">86,9&nbsp;%</span>
+            </div>
+            <div class="bar-row">
+              <span>Dur</span>
+              <div class="track" role="img" aria-label="Dur, 83,5 pour cent">
+                <div class="fill" style="width: 83.5%"></div>
+              </div>
+              <span class="pct">83,5&nbsp;%</span>
+            </div>
+            <div class="bar-row">
+              <span>Terre</span>
+              <div class="track" role="img" aria-label="Terre battue, 76,1 pour cent">
+                <div class="fill" style="width: 76.1%"></div>
+              </div>
+              <span class="pct">76,1&nbsp;%</span>
+            </div>
+            <div class="bar-row">
+              <span>Moquette</span>
+              <div class="track" role="img" aria-label="Moquette, 71,4 pour cent">
+                <div class="fill" style="width: 71.4%"></div>
+              </div>
+              <span class="pct">71,4&nbsp;%</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="card" data-cat="surfaces">
+          <p class="kicker">Titres par surface</p>
+          <p class="figure">71 · 19 · 11</p>
+          <h2>Dur, gazon, terre</h2>
+          <p>Plus 2 titres sur moquette. En Grand Chelem, le gazon pèse 8 des 20 sacres.</p>
+        </article>
+
+        <article class="card" data-cat="classement">
+          <p class="kicker">Classement</p>
+          <p class="figure">310</p>
+          <h2>Semaines n°&nbsp;1</h2>
+          <p>
+            Dont 237 d’affilée, record toujours en vigueur. Le total de semaines a depuis été dépassé.
+          </p>
+        </article>
+
+        <article class="card" data-cat="classement">
+          <p class="kicker">Classement</p>
+          <p class="figure">5</p>
+          <h2>Fins d’année au sommet</h2>
+          <p>2004, 2005, 2006, 2007 et 2009. N°&nbsp;1 pour la première fois le 2 février 2004.</p>
+        </article>
+
+        <article class="card" data-cat="records">
+          <p class="kicker">Record</p>
+          <p class="figure">65</p>
+          <h2>Victoires d’affilée sur gazon</h2>
+          <p>Entre 2003 et 2008. Il a aussi enchaîné 41 victoires tous tournois confondus en 2006-2007.</p>
+        </article>
+
+        <article class="card" data-cat="records">
+          <p class="kicker">Masters 1000</p>
+          <p class="figure">28</p>
+          <h2>Titres Masters 1000</h2>
+          <p>Bilan 381–108. Il ne lui manque que Monte-Carlo et Rome. Six titres aux ATP Finals.</p>
+        </article>
+
+        <article class="card" data-cat="chelem">
+          <p class="kicker">Série</p>
+          <p class="figure">23</p>
+          <h2>Demi-finales de suite</h2>
+          <p>
+            De Wimbledon 2004 à l’Open d’Australie 2010. Record aussi de 36 quarts, puis 10 finales d’affilée.
+          </p>
+        </article>
+
+        <article class="card" data-cat="classement">
+          <p class="kicker">Longévité</p>
+          <p class="figure">36 ans</p>
+          <h2>Le plus vieux n°&nbsp;1</h2>
+          <p>
+            En février 2018, à 36 ans et 6 mois, il redevient n°&nbsp;1 — le plus âgé de l’histoire ATP à ce moment-là.
+          </p>
+        </article>
+      </section>
+
+      <section class="quiz" id="quiz" aria-labelledby="quiz-title">
+        <p class="kicker">Six questions</p>
+        <h2 id="quiz-title">Mini quiz</h2>
+        <p class="progress" id="progress">Question 1 sur 6</p>
+        <div class="meter" aria-hidden="true"><i id="meter"></i></div>
+        <p id="question"></p>
+        <div class="choices" id="choices"></div>
+        <p class="feedback" id="feedback" role="status" aria-live="polite"></p>
+        <button type="button" class="next" id="next" hidden>Question suivante</button>
+      </section>
+
+      <footer>
+        <p>
+          Sources :
+          <a href="https://www.atptour.com/en/players/roger-federer/f324/atp-win-loss"
+            >bilan ATP Tour</a
+          >,
+          <a href="https://www.atptour.com/en/players/roger-federer/f324/bio">bio ATP</a>
+          (mise à jour citée au 1er mai 2025),
+          <a
+            href="https://www.rolandgarros.com/en-us/article/roger-federer-retirement-career-statistics-figures"
+            >Roland-Garros, carrière en chiffres</a
+          >.
+        </p>
+        <p>Page à partager telle quelle. Les records indiqués comme dépassés le sont au total des semaines n°&nbsp;1, pas sur la série de 237 semaines.</p>
+      </footer>
+    </div>
+
+    <script>
+      const filters = document.querySelectorAll(".filters button");
+      const cards = document.querySelectorAll(".card");
+
+      filters.forEach((button) => {
+        button.addEventListener("click", () => {
+          const filter = button.dataset.filter;
+          filters.forEach((item) => {
+            item.setAttribute("aria-pressed", item === button ? "true" : "false");
+          });
+          cards.forEach((card) => {
+            card.hidden = filter !== "tous" && card.dataset.cat !== filter;
+          });
+        });
+      });
+
+      const questions = [
+        {
+          q: "Combien de titres du Grand Chelem Roger Federer a-t-il remportés ?",
+          options: ["14", "18", "20", "22"],
+          answer: 2,
+          why: "20 titres : 8 Wimbledon, 6 Open d’Australie, 5 US Open, 1 Roland-Garros.",
+        },
+        {
+          q: "Combien de semaines a-t-il passées au total au rang de n° 1 ?",
+          options: ["237", "286", "310", "428"],
+          answer: 2,
+          why: "310 semaines au total. 237, c’est la série consécutive — un autre record.",
+        },
+        {
+          q: "Combien de titres ATP en simple compte son palmarès ?",
+          options: ["97", "103", "109", "120"],
+          answer: 1,
+          why: "103 titres. 109, c’est le total de Jimmy Connors, juste devant lui.",
+        },
+        {
+          q: "Sur quelle surface son pourcentage de victoires est-il le plus haut ?",
+          options: ["Terre battue", "Gazon", "Dur", "Moquette"],
+          answer: 1,
+          why: "Gazon : 192 victoires pour 29 défaites, soit 86,9 %.",
+        },
+        {
+          q: "Combien de victoires d’affilée a-t-il enchaînées sur gazon entre 2003 et 2008 ?",
+          options: ["41", "56", "65", "81"],
+          answer: 2,
+          why: "65 victoires de suite sur gazon. La série tous terrains de 2006-2007 est de 41.",
+        },
+        {
+          q: "Quel est son bilan en finale de tournoi ATP ?",
+          options: ["103–54", "103–53", "125–27", "369–60"],
+          answer: 1,
+          why: "103 finales gagnées, 53 perdues. 369–60 est son bilan en Grand Chelem, pas en finale.",
+        },
+      ];
+
+      const questionEl = document.getElementById("question");
+      const choicesEl = document.getElementById("choices");
+      const feedbackEl = document.getElementById("feedback");
+      const progressEl = document.getElementById("progress");
+      const meterEl = document.getElementById("meter");
+      const nextEl = document.getElementById("next");
+      const quizEl = document.getElementById("quiz");
+
+      let index = 0;
+      let score = 0;
+      let locked = false;
+
+      function renderQuestion() {
+        const item = questions[index];
+        locked = false;
+        progressEl.textContent = "Question " + (index + 1) + " sur " + questions.length;
+        meterEl.style.width = (index / questions.length) * 100 + "%";
+        questionEl.textContent = item.q;
+        feedbackEl.textContent = "";
+        feedbackEl.className = "feedback";
+        nextEl.hidden = true;
+        nextEl.textContent = index === questions.length - 1 ? "Voir mon score" : "Question suivante";
+        choicesEl.innerHTML = "";
+        item.options.forEach((label, optionIndex) => {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "choice";
+          button.textContent = label;
+          button.addEventListener("click", () => choose(optionIndex, button));
+          choicesEl.appendChild(button);
+        });
+      }
+
+      function choose(optionIndex, button) {
+        if (locked) return;
+        locked = true;
+        const item = questions[index];
+        const correct = optionIndex === item.answer;
+        if (correct) score += 1;
+        choicesEl.querySelectorAll(".choice").forEach((choice, choiceIndex) => {
+          choice.disabled = true;
+          if (choiceIndex === item.answer) choice.classList.add("good");
+          if (choice === button && !correct) choice.classList.add("bad");
+        });
+        feedbackEl.className = "feedback " + (correct ? "good" : "bad");
+        feedbackEl.textContent = (correct ? "Bonne réponse. " : "Pas celle-là. ") + item.why;
+        nextEl.hidden = false;
+        nextEl.focus();
+      }
+
+      function showScore() {
+        meterEl.style.width = "100%";
+        progressEl.textContent = "Terminé";
+        questionEl.textContent = "Ton score";
+        choicesEl.innerHTML = "";
+        const line = document.createElement("p");
+        line.className = "score-line";
+        line.textContent = score + " / " + questions.length;
+        const note = document.createElement("p");
+        note.textContent =
+          score === questions.length
+            ? "Sans faute. Tu peux envoyer la page à quelqu’un."
+            : score >= 4
+              ? "Solide. Les pièges étaient surtout les records voisins."
+              : "Relis les cartes filtrées, puis recommence.";
+        const again = document.createElement("button");
+        again.type = "button";
+        again.className = "again";
+        again.textContent = "Recommencer";
+        again.addEventListener("click", () => {
+          index = 0;
+          score = 0;
+          renderQuestion();
+        });
+        const copy = document.createElement("button");
+        copy.type = "button";
+        copy.className = "copy";
+        copy.textContent = "Copier mon score";
+        copy.addEventListener("click", async () => {
+          const text =
+            "Quiz Roger Federer : " +
+            score +
+            "/" +
+            questions.length +
+            " — " +
+            location.href;
+          try {
+            await navigator.clipboard.writeText(text);
+            copy.textContent = "Copié";
+          } catch {
+            copy.textContent = text;
+          }
+        });
+        choicesEl.append(line, note, again, copy);
+        feedbackEl.textContent = "";
+        nextEl.hidden = true;
+      }
+
+      nextEl.addEventListener("click", () => {
+        index += 1;
+        if (index >= questions.length) showScore();
+        else renderQuestion();
+      });
+
+      renderQuestion();
+      quizEl.dataset.ready = "true";
+    </script>
+  </body>
+</html>
