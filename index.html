@@ -41,10 +41,12 @@
         --green-2: #1f6b52;
         --mint: #e5f2eb;
         --gold: #7a5b24;
+        --gold-bright: #d4a017;
         --bad: #8e2e2e;
         --bad-bg: #f8e8e4;
         --good-bg: #e5f3ea;
         --shadow: 0 1px 0 rgba(28, 25, 20, 0.04);
+        --lift: 0 18px 40px -24px rgba(20, 56, 47, 0.5);
         --serif: "Fraunces", "Iowan Old Style", Palatino, Georgia, serif;
         --sans: "Source Sans 3", "Segoe UI", sans-serif;
       }
@@ -59,9 +61,12 @@
 
       body {
         margin: 0;
+        min-height: 100%;
         background:
-          radial-gradient(1200px 420px at 50% -80px, #efe6d2 0%, transparent 70%),
+          radial-gradient(1200px 480px at 15% -120px, #f0e3c6 0%, transparent 60%),
+          radial-gradient(1000px 420px at 100% -40px, #e4efe6 0%, transparent 55%),
           var(--paper);
+        background-attachment: fixed;
         color: var(--ink);
         font-family: var(--sans);
         font-size: 1.0625rem;
@@ -78,16 +83,27 @@
       }
 
       header {
-        padding: 2.5rem 0 1.25rem;
+        padding: 2.75rem 0 1.25rem;
       }
 
       .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
         margin: 0 0 0.75rem;
         color: var(--gold);
         font-size: 0.78rem;
         font-weight: 700;
         letter-spacing: 0.14em;
         text-transform: uppercase;
+      }
+
+      .eyebrow::before {
+        content: "";
+        width: 26px;
+        height: 2px;
+        background: var(--gold-bright);
+        transform-origin: left;
       }
 
       h1 {
@@ -99,10 +115,26 @@
         line-height: 0.95;
       }
 
-      h1 span {
+      h1 .accent {
         display: block;
+        position: relative;
+        width: max-content;
+        max-width: 100%;
         font-weight: 650;
         font-style: italic;
+      }
+
+      h1 .accent::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0.08em;
+        height: 0.14em;
+        border-radius: 999px;
+        background: linear-gradient(90deg, var(--gold-bright), #f0c04b);
+        transform: scaleX(0);
+        transform-origin: left;
       }
 
       .lede {
@@ -130,11 +162,25 @@
         color: #f7f3ea;
         font-weight: 700;
         text-decoration: none;
+        transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+      }
+
+      .jump a:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--lift);
+      }
+
+      .jump a:active {
+        transform: translateY(0) scale(0.97);
       }
 
       .jump a.ghost {
         background: transparent;
         color: var(--green);
+      }
+
+      .jump a.ghost:hover {
+        background: var(--mint);
       }
 
       .filters {
@@ -146,7 +192,7 @@
         gap: 0.45rem;
         margin: 0.5rem 0 1rem;
         padding: 0.75rem 0;
-        background: color-mix(in srgb, var(--paper) 92%, transparent);
+        background: color-mix(in srgb, var(--paper) 90%, transparent);
         backdrop-filter: blur(8px);
       }
 
@@ -166,6 +212,17 @@
         border-radius: 999px;
         background: var(--card);
         color: var(--ink);
+        transition: transform 0.16s ease, background 0.2s ease, color 0.2s ease,
+          border-color 0.2s ease;
+      }
+
+      .filters button:hover {
+        border-color: var(--green);
+        transform: translateY(-1px);
+      }
+
+      .filters button:active {
+        transform: scale(0.95);
       }
 
       .filters button[aria-pressed="true"] {
@@ -180,7 +237,7 @@
       .again:focus-visible,
       .copy:focus-visible,
       .jump a:focus-visible {
-        outline: 3px solid #d4a017;
+        outline: 3px solid var(--gold-bright);
         outline-offset: 2px;
       }
 
@@ -229,6 +286,7 @@
         font-weight: 650;
         letter-spacing: -0.03em;
         line-height: 1;
+        font-variant-numeric: tabular-nums;
       }
 
       .card h2 {
@@ -270,8 +328,9 @@
 
       .fill {
         height: 100%;
+        width: 0;
         border-radius: inherit;
-        background: var(--green);
+        background: linear-gradient(90deg, var(--green), var(--green-2));
       }
 
       .pct {
@@ -287,11 +346,48 @@
         background: var(--card);
       }
 
+      .quiz-head {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 0.75rem;
+      }
+
       .quiz h2 {
         margin: 0.2rem 0 0.3rem;
         font-family: var(--serif);
         font-size: clamp(1.7rem, 4vw, 2.2rem);
         font-weight: 560;
+      }
+
+      .streak {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.2rem 0.7rem;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: var(--paper);
+        color: var(--muted);
+        font-size: 0.82rem;
+        font-weight: 700;
+        white-space: nowrap;
+        opacity: 0;
+        transform: translateY(-4px);
+        transition: opacity 0.25s ease, transform 0.25s ease, color 0.25s ease,
+          border-color 0.25s ease, background 0.25s ease;
+      }
+
+      .streak.on {
+        opacity: 1;
+        transform: none;
+        color: var(--gold);
+        border-color: var(--gold-bright);
+        background: #fbf2d8;
+      }
+
+      .streak b {
+        font-variant-numeric: tabular-nums;
       }
 
       .progress {
@@ -313,7 +409,8 @@
         display: block;
         height: 100%;
         width: 0;
-        background: var(--green-2);
+        border-radius: inherit;
+        background: linear-gradient(90deg, var(--green-2), var(--gold-bright));
       }
 
       #question {
@@ -329,21 +426,40 @@
       }
 
       .choice {
+        position: relative;
         min-height: 48px;
-        padding: 0.7rem 0.9rem;
+        padding: 0.7rem 2.4rem 0.7rem 0.9rem;
         border: 1px solid var(--line);
         border-radius: 12px;
         background: #fff;
         color: var(--ink);
         text-align: left;
+        transition: transform 0.14s ease, border-color 0.18s ease,
+          background 0.18s ease, box-shadow 0.18s ease;
       }
 
-      .choice:hover {
+      .choice:hover:not([disabled]) {
         border-color: var(--green);
+        transform: translateY(-1px);
+        box-shadow: var(--lift);
+      }
+
+      .choice:active:not([disabled]) {
+        transform: scale(0.98);
       }
 
       .choice[disabled] {
         cursor: default;
+      }
+
+      .choice::after {
+        position: absolute;
+        right: 0.85rem;
+        top: 50%;
+        transform: translateY(-50%) scale(0.4);
+        opacity: 0;
+        font-weight: 800;
+        transition: opacity 0.2s ease, transform 0.2s ease;
       }
 
       .choice.good {
@@ -351,9 +467,23 @@
         background: var(--good-bg);
       }
 
+      .choice.good::after {
+        content: "✓";
+        color: var(--green-2);
+        opacity: 1;
+        transform: translateY(-50%) scale(1);
+      }
+
       .choice.bad {
         border-color: var(--bad);
         background: var(--bad-bg);
+      }
+
+      .choice.bad::after {
+        content: "✕";
+        color: var(--bad);
+        opacity: 1;
+        transform: translateY(-50%) scale(1);
       }
 
       .feedback {
@@ -381,6 +511,20 @@
         background: var(--green);
         color: #f7f3ea;
         font-weight: 700;
+        transition: transform 0.16s ease, box-shadow 0.16s ease, background 0.18s ease;
+      }
+
+      .next:hover,
+      .again:hover,
+      .copy:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--lift);
+      }
+
+      .next:active,
+      .again:active,
+      .copy:active {
+        transform: translateY(0) scale(0.97);
       }
 
       .again,
@@ -389,11 +533,18 @@
         color: var(--green);
       }
 
+      .again:hover,
+      .copy:hover {
+        background: var(--mint);
+      }
+
       .score-line {
         margin: 0.4rem 0 0;
         font-family: var(--serif);
-        font-size: clamp(2rem, 6vw, 3rem);
+        font-size: clamp(2.6rem, 10vw, 4.4rem);
         line-height: 1;
+        letter-spacing: -0.03em;
+        font-variant-numeric: tabular-nums;
       }
 
       footer {
@@ -406,24 +557,145 @@
         margin: 0.35rem 0;
       }
 
+      #confetti {
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 9999;
+      }
+
+      /* ---------- Juice : uniquement si l'utilisateur accepte le mouvement ---------- */
+      @media (prefers-reduced-motion: no-preference) {
+        .reveal {
+          opacity: 0;
+          transform: translateY(18px);
+          transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+        }
+
+        .reveal.in {
+          opacity: 1;
+          transform: none;
+        }
+
+        .card {
+          transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1),
+            box-shadow 0.25s ease, border-color 0.25s ease;
+        }
+
+        .card.in:not(.out):hover {
+          transform: translateY(-4px);
+          border-color: #cfc6b2;
+          box-shadow: var(--lift);
+        }
+
+        .card.out {
+          opacity: 0;
+          transform: scale(0.95);
+          transition: opacity 0.22s ease, transform 0.22s ease;
+        }
+
+        .fill {
+          transition: width 1s cubic-bezier(0.2, 0.7, 0.2, 1);
+        }
+
+        .meter i {
+          transition: width 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+        }
+
+        h1 .accent.drawn::after {
+          transform: scaleX(1);
+          transition: transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) 0.35s;
+        }
+
+        .choice.pop {
+          animation: pop 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .choice.shake {
+          animation: shake 0.4s ease;
+        }
+
+        .feedback.show {
+          animation: fade-up 0.35s ease;
+        }
+
+        .score-line.count {
+          animation: pop 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        @keyframes pop {
+          0% {
+            transform: scale(1);
+          }
+          40% {
+            transform: scale(1.06);
+          }
+          100% {
+            transform: scale(1);
+          }
+        }
+
+        @keyframes shake {
+          10%,
+          90% {
+            transform: translateX(-2px);
+          }
+          20%,
+          80% {
+            transform: translateX(4px);
+          }
+          30%,
+          50%,
+          70% {
+            transform: translateX(-7px);
+          }
+          40%,
+          60% {
+            transform: translateX(7px);
+          }
+        }
+
+        @keyframes fade-up {
+          from {
+            opacity: 0;
+            transform: translateY(6px);
+          }
+          to {
+            opacity: 1;
+            transform: none;
+          }
+        }
+      }
+
       @media (prefers-reduced-motion: reduce) {
         html {
           scroll-behavior: auto;
+        }
+
+        .fill {
+          width: var(--target, 0);
+        }
+
+        h1 .accent::after {
+          transform: scaleX(1);
         }
       }
     </style>
   </head>
   <body>
+    <canvas id="confetti" aria-hidden="true"></canvas>
     <div class="wrap">
       <header>
-        <p class="eyebrow">Carrière ATP · 1998 – 2022</p>
-        <h1>Roger Federer <span>en chiffres</span></h1>
-        <p class="lede">
+        <p class="eyebrow reveal">Carrière ATP · 1998 – 2022</p>
+        <h1 class="reveal">Roger Federer <span class="accent">en chiffres</span></h1>
+        <p class="lede reveal">
           Vingt titres du Grand Chelem, 103 tournois, 310 semaines au sommet.
           Les chiffres ci-dessous viennent de l’ATP Tour et de Roland-Garros.
           Filtre-les, puis réponds au quiz.
         </p>
-        <div class="jump">
+        <div class="jump reveal">
           <a href="#stats">Voir les stats</a>
           <a class="ghost" href="#quiz">Faire le quiz</a>
         </div>
@@ -443,37 +715,37 @@
       </div>
 
       <section class="grid" aria-label="Statistiques de carrière">
-        <article class="card" data-cat="chelem">
+        <article class="card reveal" data-cat="chelem">
           <p class="kicker">Grand Chelem</p>
-          <p class="figure">20</p>
+          <p class="figure" data-count="20">20</p>
           <h2>Titres majeurs</h2>
           <p>8 à Wimbledon, 6 à l’Open d’Australie, 5 à l’US Open, 1 à Roland-Garros.</p>
         </article>
 
-        <article class="card" data-cat="chelem">
+        <article class="card reveal" data-cat="chelem">
           <p class="kicker">Grand Chelem</p>
           <p class="figure">369–60</p>
           <h2>Bilan dans les Majeurs</h2>
           <p>86,0&nbsp;% de victoires. 31 finales, dont 10 d’affilée entre 2005 et 2007.</p>
         </article>
 
-        <article class="card" data-cat="records">
+        <article class="card reveal" data-cat="records">
           <p class="kicker">Palmarès</p>
-          <p class="figure">103</p>
+          <p class="figure" data-count="103">103</p>
           <h2>Titres ATP en simple</h2>
           <p>
             Du premier à Milan en 2001 au dernier à Bâle en 2019. Jimmy Connors en compte 109.
           </p>
         </article>
 
-        <article class="card" data-cat="records">
+        <article class="card reveal" data-cat="records">
           <p class="kicker">Matchs</p>
           <p class="figure">1&nbsp;251–275</p>
           <h2>Bilan en carrière</h2>
           <p>82,0&nbsp;% de victoires sur 1&nbsp;526 matchs. Il n’a jamais abandonné en cours de match.</p>
         </article>
 
-        <article class="card wide" data-cat="surfaces">
+        <article class="card wide reveal" data-cat="surfaces">
           <p class="kicker">Surfaces</p>
           <h2>Pourcentage de victoires</h2>
           <p>Le gazon reste sa surface la plus sûre. Les titres suivent la même hiérarchie.</p>
@@ -481,81 +753,81 @@
             <div class="bar-row">
               <span>Gazon</span>
               <div class="track" role="img" aria-label="Gazon, 86,9 pour cent">
-                <div class="fill" style="width: 86.9%"></div>
+                <div class="fill" style="--target: 86.9%"></div>
               </div>
               <span class="pct">86,9&nbsp;%</span>
             </div>
             <div class="bar-row">
               <span>Dur</span>
               <div class="track" role="img" aria-label="Dur, 83,5 pour cent">
-                <div class="fill" style="width: 83.5%"></div>
+                <div class="fill" style="--target: 83.5%"></div>
               </div>
               <span class="pct">83,5&nbsp;%</span>
             </div>
             <div class="bar-row">
               <span>Terre</span>
               <div class="track" role="img" aria-label="Terre battue, 76,1 pour cent">
-                <div class="fill" style="width: 76.1%"></div>
+                <div class="fill" style="--target: 76.1%"></div>
               </div>
               <span class="pct">76,1&nbsp;%</span>
             </div>
             <div class="bar-row">
               <span>Moquette</span>
               <div class="track" role="img" aria-label="Moquette, 71,4 pour cent">
-                <div class="fill" style="width: 71.4%"></div>
+                <div class="fill" style="--target: 71.4%"></div>
               </div>
               <span class="pct">71,4&nbsp;%</span>
             </div>
           </div>
         </article>
 
-        <article class="card" data-cat="surfaces">
+        <article class="card reveal" data-cat="surfaces">
           <p class="kicker">Titres par surface</p>
           <p class="figure">71 · 19 · 11</p>
           <h2>Dur, gazon, terre</h2>
           <p>Plus 2 titres sur moquette. En Grand Chelem, le gazon pèse 8 des 20 sacres.</p>
         </article>
 
-        <article class="card" data-cat="classement">
+        <article class="card reveal" data-cat="classement">
           <p class="kicker">Classement</p>
-          <p class="figure">310</p>
+          <p class="figure" data-count="310">310</p>
           <h2>Semaines n°&nbsp;1</h2>
           <p>
             Dont 237 d’affilée, record toujours en vigueur. Le total de semaines a depuis été dépassé.
           </p>
         </article>
 
-        <article class="card" data-cat="classement">
+        <article class="card reveal" data-cat="classement">
           <p class="kicker">Classement</p>
-          <p class="figure">5</p>
+          <p class="figure" data-count="5">5</p>
           <h2>Fins d’année au sommet</h2>
           <p>2004, 2005, 2006, 2007 et 2009. N°&nbsp;1 pour la première fois le 2 février 2004.</p>
         </article>
 
-        <article class="card" data-cat="records">
+        <article class="card reveal" data-cat="records">
           <p class="kicker">Record</p>
-          <p class="figure">65</p>
+          <p class="figure" data-count="65">65</p>
           <h2>Victoires d’affilée sur gazon</h2>
           <p>Entre 2003 et 2008. Il a aussi enchaîné 41 victoires tous tournois confondus en 2006-2007.</p>
         </article>
 
-        <article class="card" data-cat="records">
+        <article class="card reveal" data-cat="records">
           <p class="kicker">Masters 1000</p>
-          <p class="figure">28</p>
+          <p class="figure" data-count="28">28</p>
           <h2>Titres Masters 1000</h2>
           <p>Bilan 381–108. Il ne lui manque que Monte-Carlo et Rome. Six titres aux ATP Finals.</p>
         </article>
 
-        <article class="card" data-cat="chelem">
+        <article class="card reveal" data-cat="chelem">
           <p class="kicker">Série</p>
-          <p class="figure">23</p>
+          <p class="figure" data-count="23">23</p>
           <h2>Demi-finales de suite</h2>
           <p>
             De Wimbledon 2004 à l’Open d’Australie 2010. Record aussi de 36 quarts, puis 10 finales d’affilée.
           </p>
         </article>
 
-        <article class="card" data-cat="classement">
+        <article class="card reveal" data-cat="classement">
           <p class="kicker">Longévité</p>
           <p class="figure">36 ans</p>
           <h2>Le plus vieux n°&nbsp;1</h2>
@@ -565,9 +837,16 @@
         </article>
       </section>
 
-      <section class="quiz" id="quiz" aria-labelledby="quiz-title">
-        <p class="kicker">Six questions</p>
-        <h2 id="quiz-title">Mini quiz</h2>
+      <section class="quiz reveal" id="quiz" aria-labelledby="quiz-title">
+        <div class="quiz-head">
+          <div>
+            <p class="kicker">Six questions</p>
+            <h2 id="quiz-title">Mini quiz</h2>
+          </div>
+          <span class="streak" id="streak" aria-live="polite"
+            >Série&nbsp;<b id="streak-n">0</b></span
+          >
+        </div>
         <p class="progress" id="progress">Question 1 sur 6</p>
         <div class="meter" aria-hidden="true"><i id="meter"></i></div>
         <p id="question"></p>
@@ -594,21 +873,162 @@
     </div>
 
     <script>
+      const reduce = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches;
+
+      /* ---------- Révélation au scroll + compteurs + barres ---------- */
+      function countUp(el, target) {
+        const duration = 1100;
+        const start = performance.now();
+        function tick(now) {
+          const t = Math.min(1, (now - start) / duration);
+          const eased = 1 - Math.pow(1 - t, 3);
+          el.textContent = Math.round(target * eased).toString();
+          if (t < 1) requestAnimationFrame(tick);
+          else el.textContent = target.toString();
+        }
+        requestAnimationFrame(tick);
+      }
+
+      function animateCard(card) {
+        card.querySelectorAll(".fill").forEach((fill) => {
+          const target = fill.style.getPropertyValue("--target");
+          requestAnimationFrame(() => {
+            fill.style.width = target;
+          });
+        });
+        const fig = card.querySelector(".figure[data-count]");
+        if (fig && !fig.dataset.done) {
+          fig.dataset.done = "1";
+          if (reduce) fig.textContent = fig.dataset.count;
+          else countUp(fig, parseInt(fig.dataset.count, 10));
+        }
+      }
+
+      const reveals = document.querySelectorAll(".reveal");
+      if (reduce || !("IntersectionObserver" in window)) {
+        reveals.forEach((el) => {
+          el.classList.add("in");
+          if (el.classList.contains("card")) animateCard(el);
+        });
+      } else {
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (!entry.isIntersecting) return;
+              const el = entry.target;
+              el.classList.add("in");
+              if (el.classList.contains("card")) animateCard(el);
+              io.unobserve(el);
+            });
+          },
+          { threshold: 0.2, rootMargin: "0px 0px -8% 0px" }
+        );
+        reveals.forEach((el) => io.observe(el));
+      }
+
+      /* Trait doré sous le titre */
+      const accent = document.querySelector("h1 .accent");
+      if (accent) requestAnimationFrame(() => accent.classList.add("drawn"));
+
+      /* ---------- Filtres animés ---------- */
       const filters = document.querySelectorAll(".filters button");
       const cards = document.querySelectorAll(".card");
 
+      function setPressed(active) {
+        filters.forEach((item) =>
+          item.setAttribute("aria-pressed", item === active ? "true" : "false")
+        );
+      }
+
+      function applyFilter(filter) {
+        cards.forEach((card) => {
+          const show = filter === "tous" || card.dataset.cat === filter;
+          if (reduce) {
+            card.hidden = !show;
+            return;
+          }
+          if (show) {
+            card.classList.remove("out");
+            if (card.hidden) {
+              card.hidden = false;
+              card.classList.remove("in");
+              requestAnimationFrame(() =>
+                requestAnimationFrame(() => card.classList.add("in"))
+              );
+            }
+          } else if (!card.hidden) {
+            card.classList.add("out");
+            setTimeout(() => {
+              if (card.classList.contains("out")) card.hidden = true;
+            }, 240);
+          }
+        });
+      }
+
       filters.forEach((button) => {
         button.addEventListener("click", () => {
-          const filter = button.dataset.filter;
-          filters.forEach((item) => {
-            item.setAttribute("aria-pressed", item === button ? "true" : "false");
-          });
-          cards.forEach((card) => {
-            card.hidden = filter !== "tous" && card.dataset.cat !== filter;
-          });
+          setPressed(button);
+          applyFilter(button.dataset.filter);
         });
       });
 
+      /* ---------- Confettis ---------- */
+      const confettiCanvas = document.getElementById("confetti");
+      const ctx = confettiCanvas.getContext("2d");
+      const palette = ["#1f6b52", "#d4a017", "#14382f", "#7a5b24", "#e5f2eb"];
+
+      function fireConfetti(amount) {
+        if (reduce) return;
+        const dpr = window.devicePixelRatio || 1;
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+        confettiCanvas.width = w * dpr;
+        confettiCanvas.height = h * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        const parts = [];
+        for (let i = 0; i < amount; i++) {
+          parts.push({
+            x: w / 2 + (Math.random() - 0.5) * 160,
+            y: h * 0.32,
+            vx: (Math.random() - 0.5) * 10,
+            vy: Math.random() * -11 - 4,
+            size: Math.random() * 7 + 4,
+            color: palette[(Math.random() * palette.length) | 0],
+            rot: Math.random() * Math.PI,
+            vr: (Math.random() - 0.5) * 0.3,
+            life: 0,
+          });
+        }
+        const start = performance.now();
+        function frame(now) {
+          const elapsed = now - start;
+          ctx.clearRect(0, 0, w, h);
+          let alive = false;
+          parts.forEach((p) => {
+            p.vy += 0.28;
+            p.x += p.vx;
+            p.y += p.vy;
+            p.rot += p.vr;
+            p.life = elapsed;
+            const alpha = Math.max(0, 1 - elapsed / 1800);
+            if (alpha > 0 && p.y < h + 40) alive = true;
+            ctx.save();
+            ctx.globalAlpha = alpha;
+            ctx.translate(p.x, p.y);
+            ctx.rotate(p.rot);
+            ctx.fillStyle = p.color;
+            ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.6);
+            ctx.restore();
+          });
+          if (alive) requestAnimationFrame(frame);
+          else ctx.clearRect(0, 0, w, h);
+        }
+        requestAnimationFrame(frame);
+      }
+
+      /* ---------- Quiz ---------- */
       const questions = [
         {
           q: "Combien de titres du Grand Chelem Roger Federer a-t-il remportés ?",
@@ -655,10 +1075,21 @@
       const meterEl = document.getElementById("meter");
       const nextEl = document.getElementById("next");
       const quizEl = document.getElementById("quiz");
+      const streakEl = document.getElementById("streak");
+      const streakNEl = document.getElementById("streak-n");
 
       let index = 0;
       let score = 0;
+      let streak = 0;
+      let best = 0;
       let locked = false;
+
+      function setStreak(value) {
+        streak = value;
+        best = Math.max(best, streak);
+        streakNEl.textContent = streak;
+        streakEl.classList.toggle("on", streak >= 2);
+      }
 
       function renderQuestion() {
         const item = questions[index];
@@ -669,7 +1100,8 @@
         feedbackEl.textContent = "";
         feedbackEl.className = "feedback";
         nextEl.hidden = true;
-        nextEl.textContent = index === questions.length - 1 ? "Voir mon score" : "Question suivante";
+        nextEl.textContent =
+          index === questions.length - 1 ? "Voir mon score" : "Question suivante";
         choicesEl.innerHTML = "";
         item.options.forEach((label, optionIndex) => {
           const button = document.createElement("button");
@@ -686,14 +1118,24 @@
         locked = true;
         const item = questions[index];
         const correct = optionIndex === item.answer;
-        if (correct) score += 1;
+        if (correct) {
+          score += 1;
+          setStreak(streak + 1);
+        } else {
+          setStreak(0);
+        }
         choicesEl.querySelectorAll(".choice").forEach((choice, choiceIndex) => {
           choice.disabled = true;
           if (choiceIndex === item.answer) choice.classList.add("good");
           if (choice === button && !correct) choice.classList.add("bad");
         });
-        feedbackEl.className = "feedback " + (correct ? "good" : "bad");
-        feedbackEl.textContent = (correct ? "Bonne réponse. " : "Pas celle-là. ") + item.why;
+        if (!reduce) {
+          button.classList.add(correct ? "pop" : "shake");
+        }
+        feedbackEl.className = "feedback show " + (correct ? "good" : "bad");
+        feedbackEl.textContent =
+          (correct ? "Bonne réponse. " : "Pas celle-là. ") + item.why;
+        if (correct && streak >= 3) fireConfetti(60);
         nextEl.hidden = false;
         nextEl.focus();
       }
@@ -705,7 +1147,7 @@
         choicesEl.innerHTML = "";
         const line = document.createElement("p");
         line.className = "score-line";
-        line.textContent = score + " / " + questions.length;
+        line.textContent = "0 / " + questions.length;
         const note = document.createElement("p");
         note.textContent =
           score === questions.length
@@ -713,6 +1155,9 @@
             : score >= 4
               ? "Solide. Les pièges étaient surtout les records voisins."
               : "Relis les cartes filtrées, puis recommence.";
+        if (best >= 2) {
+          note.textContent += " Meilleure série : " + best + " d’affilée.";
+        }
         const again = document.createElement("button");
         again.type = "button";
         again.className = "again";
@@ -720,6 +1165,8 @@
         again.addEventListener("click", () => {
           index = 0;
           score = 0;
+          best = 0;
+          setStreak(0);
           renderQuestion();
         });
         const copy = document.createElement("button");
@@ -743,7 +1190,24 @@
         });
         choicesEl.append(line, note, again, copy);
         feedbackEl.textContent = "";
+        feedbackEl.className = "feedback";
         nextEl.hidden = true;
+
+        if (reduce) {
+          line.textContent = score + " / " + questions.length;
+        } else {
+          line.classList.add("count");
+          countUp(line, score);
+          setTimeout(() => {
+            line.textContent = score + " / " + questions.length;
+          }, 1150);
+        }
+        if (score === questions.length) {
+          fireConfetti(160);
+          setTimeout(() => fireConfetti(120), 350);
+        } else if (score >= 4) {
+          fireConfetti(80);
+        }
       }
 
       nextEl.addEventListener("click", () => {
